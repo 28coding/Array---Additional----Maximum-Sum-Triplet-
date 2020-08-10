@@ -1,0 +1,21 @@
+# Array---Additional----Maximum-Sum-Triplet | InterviewBit Coding
+int Solution::solve(vector<int> &A) 
+{
+    int n = A.size();
+    int mx[n];
+    set<int> mn;
+    mx[n-1]=A[n-1];
+    for(int i=n-2;i>=0;i--)
+        mx[i] = max(A[i],mx[i+1]);
+    int ans=0;
+    mn.insert(-A[0]);
+    for(int i=1;i<n-1;i++)
+    {
+        auto it = mn.upper_bound(-A[i]);
+        mn.insert(-A[i]);
+        if(it == mn.end()) continue;
+        if(mx[i+1]<=A[i]) continue;
+        ans = max(ans, A[i] - *it + mx[i+1]);
+    }
+    return ans;
+}
